@@ -1,36 +1,29 @@
-import { User } from '../models/User';
+// import { Request, Response } from 'express';
+// import { UserService } from '../services/UserService';
 
-export class UserService {
-  private users: User[];
+// const userService = new UserService();
 
-  constructor() {
-    this.users = [];
-  }
+// export class UserController {
+//     createUser(req: Request, res: Response): void {
+//         const { username, fullName } = req.body;
+//         const user = userService.createUser(username, fullName);
+//         res.status(201).json(user);
+//     }
 
-  createUser(username: string, fullName: string): User {
-    const user: User = {
-      id: this.generateId(),
-      username,
-      fullName,
-    };
-    this.users.push(user);
-    return user;
-  }
+//     getUserById(req: Request, res: Response): void {
+//         const { id } = req.params;
+//         const user = userService.getUserById(id);
+//         if (user) {
+//         res.json(user);
+//         } else {
+//         res.status(404).json({ message: 'User not found' });
+//         }
+//     }
 
-  getUserById(id: string): User | undefined {
-    return this.users.find((user) => user.id === id);
-  }
-
-  getUsers(): User[] {
-    return this.users;
-  }
-  
-  // Implement more user-related operations as needed
-
-  private generateId(): string {
-    // Generate a unique ID for the user
-    // You can use a library like 'uuid' for generating IDs
-    // Example: return uuid();
-    return ''; // Replace with your implementation
-  }
-}
+//     getUsers(req: Request, res: Response): void {
+//         const users = userService.getUsers();
+//         res.json(users);
+//     }
+    
+//     // Implement more user-related route handlers as needed
+// }
