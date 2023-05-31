@@ -34,8 +34,7 @@ export class TweetService {
             replies: [],
             timestamp: new Date(),
         };
-        tweet.replies.push(reply.id);
-        this.tweets.push(reply);
+        tweet.replies.push(reply.content);
         return reply;
         }
         return undefined;

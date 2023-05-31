@@ -24,8 +24,7 @@ export class UserController {
         const matchedUser = userService.loginUser(username, password)
 
         if (matchedUser) {
-            const userId = matchedUser.id
-            res.render('homeDashboard', { userId });
+            res.render('homeDashboard', { matchedUser });
         } else {
             // User login failed due to incorrect credentials
             res.status(401).json({ message: 'Invalid username or password' });
