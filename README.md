@@ -1,2 +1,6 @@
 # Twitter-Reloaded
-# Twitter-Reloaded
+El directorio "src" es el que contiene todos los directorios y archivos fuente necesarios para el desarrollo del proyecto. Dentro del mismo, encontraremos 3 directorios y 3 archivos.
+Uno de los archivos se llama "app.ts", el cual es simplemente una clase que implementa la librería Express. Esta clase cuenta con dos principales métodos que son inicializados en el constructor. Uno de ellos se encarga de la configuración del middleware, mientras que el otro registra las rutas.
+Finalmente, tenemos el archivo "index.ts", que es el punto de entrada de mi aplicación. Aquí es donde comienza, utilizando nuestra clase "app" que contiene las variables necesarias para iniciar nuestro proyecto.
+Y, finalmente, el último archivo, ".env". Como vimos en la clase, estamos utilizando variables de entorno con dotenv para guardar la configuración de nuestro proyecto.
+El directorio "models" contiene las interfaces que se usarán a lo largo del proyecto, lo cual nos permitirá guardar la información necesaria.

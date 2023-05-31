@@ -13,7 +13,7 @@ export class TweetController {
         const user = userService.getUserById(userId);
         if (user) {
             const tweet = tweetService.createTweet(content, userId);
-            eventService.registerEvent("create teweet",userId)
+            eventService.registerEvent("create tweet", userId);
             user.tweets.push(content);
             res.status(200).json({ message: 'Tweet created successfully' });
         } else {
@@ -38,7 +38,7 @@ export class TweetController {
         const { id } = req.params;
         const { content, userId } = req.body;
         const reply = tweetService.replyToTweet(id, content, userId);
-        eventService.registerEvent("create teweet",userId)
+        eventService.registerEvent("reply tweet", userId);
         if (reply) {
             res.status(201).json(reply);
         } else {
