@@ -6,7 +6,7 @@
 <body>
     <h1>Home Dashboard</h1>
     <h2>Create a Tweet</h2>
-    <form id="tweetForm" action="/tweets" method="POST">
+    <form id="tweetForm">
         <textarea id="tweetInput" name="content" maxlength="300" required></textarea><br><br>
         <button id="tweetButton" type="submit">Tweet</button>
         <input type="hidden" id="userIdInput" name="userId" value="<%= userId %>">
@@ -16,25 +16,34 @@
     <div id="tweetsContainer">
         <!-- Display tweets and threads here -->
     </div>
-   
     <script>
         const tweetForm = document.getElementById('tweetForm');
-        
         tweetForm.addEventListener('submit', function(event) {
-            // Additional logic to handle the form submission, if needed
-            
-            // Clear the tweet input field
+            event.preventDefault();
             const tweetInput = document.getElementById('tweetInput');
-            if (tweetInput) {
-                tweetInput.value = '';
-            }
+            const userIdInput = document.getElementById('userIdInput');
+            const content = tweetInput.value;
+            const userId = userIdInput.value;
+            fetch('/tweets', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content, userId }),
+            })
+            .then(response => {
+                console.log('Tweet created successfully!');
+            })
+            .catch(error => {
+                console.error('Failed to create tweet:', response.status);
+            });
+            tweetInput.value = ''; // Clear the tweet input field
         });
         
         const updateButton = document.getElementById('updateButton');
         updateButton.addEventListener('click', function() {
             fetchTweets();
         });
-
         function fetchTweets() {
             fetch('/tweets', {
                 method: 'GET'
@@ -46,13 +55,25 @@
                 if (tweetsContainer) {
                     tweetsContainer.innerHTML = '';
                 }
-
                 // Display the tweets in the tweets container
                 if (tweetsContainer) {
                     tweets.forEach(tweet => {
-                        console.log(tweet.content + "asukdghashjgbdhjdbvsa")
                         const tweetElement = document.createElement('div');
                         tweetElement.textContent = tweet.content;
+                        // Create the reply button
+                        const replyButton = document.createElement('button');
+                        replyButton.textContent = 'Reply';
+                        replyButton.addEventListener('click', () => {
+                            // Prompt the user for the reply content
+                            const replyContent = prompt('Enter your reply:');
+                            if (replyContent) {
+                                replyToTweet(tweet.id, replyContent);
+                            }
+                        });
+                        // Append the reply button to the tweet element
+                        tweetElement.appendChild(replyButton);
+                
+                        // Append the tweet element to the tweets container
                         tweetsContainer.appendChild(tweetElement);
                     });
                 }
@@ -61,8 +82,31 @@
                 console.error('Failed to fetch tweets:', error);
             });
         }
+        function replyToTweet(tweetId, replyContent) {
+            const userId = 'your_user_id'; // Replace with the actual user ID
+        
+            fetch(`/tweets/${tweetId}/reply`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: replyContent, userId }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                    console.log('Reply posted successfully!');
+                  // You can update the UI or perform any additional actions after the reply is posted
+                    } else {
+                    console.error('Failed to post reply:', response.status);
+                }
+                })
+                .catch(error => {
+                console.error('Failed to post reply:', error);
+                });
+            }
 
-        fetchTweets();
     </script>
+
+
 </body>
 </html>

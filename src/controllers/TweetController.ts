@@ -9,10 +9,13 @@ const userService = UserService.getInstance();
 export class TweetController {
     createTweet(req: Request, res: Response): void {
         const { content, userId } = req.body;
-        const user = userService.getUserById(userId)
-        if(user){
+        const user = userService.getUserById(userId);
+        if (user) {
             const tweet = tweetService.createTweet(content, userId);
-            user.tweets.push(content)
+            user.tweets.push(content);
+            res.status(200).json({ message: 'Tweet created successfully' });
+        } else {
+            res.status(404).json({ error: 'User not found' });
         }
     }
 
@@ -27,6 +30,7 @@ export class TweetController {
     }
     getTweets(req: Request, res: Response): void {
         const tweets = tweetService.getRecentTweets(10);
+        console.log(tweets)
         res.json(tweets);
     }
 
