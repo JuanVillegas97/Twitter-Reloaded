@@ -1,5 +1,5 @@
 export interface Event {
-    actionType: string;
+    actionType: "create tweet" | "reply tweet" | "open application";
     userId: string;
     timestamp: Date;
 }

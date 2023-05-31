@@ -1,9 +1,9 @@
 import express, { Express } from 'express';
-import cors from 'cors';
-import path from 'path'
 import { tweetRoutes } from './routes/tweetRoutes';
 import { userRoutes } from './routes/userRoutes';
-
+import { eventRoutes } from './routes/eventRoutes'
+import cors from 'cors';
+import path from 'path'
 export class App {
     private app: Express;
     constructor() {
@@ -31,6 +31,7 @@ export class App {
         }));
     }
     private registerRoutes(): void {
+        this.app.use('/events', eventRoutes);
         this.app.use('/tweets', tweetRoutes);
         this.app.use('/users', userRoutes);
     }

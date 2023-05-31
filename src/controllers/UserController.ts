@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/UserService';
+import { EventService } from '../services/EventService';
 import path from 'path'
-import { TweetController } from './TweetController';
 
 const userService = UserService.getInstance();
+const eventService = EventService.getInstance();
 
 export class UserController {    
     public getRegisterHTML(req: Request, res: Response): void{
@@ -24,6 +25,7 @@ export class UserController {
         const matchedUser = userService.loginUser(username, password)
 
         if (matchedUser) {
+            eventService.registerEvent("open application",matchedUser.id)
             res.render('homeDashboard', { matchedUser });
         } else {
             // User login failed due to incorrect credentials
@@ -45,5 +47,4 @@ export class UserController {
         res.json(users);
     }
     
-    // Implement more user-related route handlers as needed
 }

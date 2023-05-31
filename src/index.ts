@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import { App } from './app';
-import eventRoutes from './routes/eventRoutes';
 
 // Load environment variables from .env file
 dotenv.config();

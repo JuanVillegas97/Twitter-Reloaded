@@ -5,6 +5,6 @@ const eventController = new EventController();
 const router = Router();
 
 router.post('/', eventController.registerEvent);
-router.get('/reports', eventController.generateReports);
+router.get('/', eventController.generateReports);
 
-export default router;
+export  { router as eventRoutes };

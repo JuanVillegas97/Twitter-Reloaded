@@ -6,13 +6,13 @@
 <body>
     <h1>Home Dashboard</h1>
     <h2>Welcome <%= matchedUser.username %></h2>
+    <button id="eventDashbaord">generate eventDashboard</button>
     <h2>Create a Tweet</h2>
     <form id="tweetForm">
         <textarea id="tweetInput" name="content" maxlength="300" required></textarea><br><br>
         <button id="tweetButton" type="submit">Tweet</button>
         <input type="hidden" id="userIdInput" name="userId" value="<%= matchedUser.id %>">
         <input type="hidden" id="userNameInput"  value="<%= matchedUser.username %>">
-
     </form>
     <button id="updateButton">Update</button>
     <h2>Tweets and Threads</h2>
@@ -20,6 +20,25 @@
         <!-- Display tweets and threads here -->
     </div>
     <script>
+        const eventDashboardButton =  document.getElementById('eventDashbaord')
+        eventDashboardButton.addEventListener('click', function(event){
+            fetch('/events', {
+                method: 'GET', 
+            })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch events');
+                }
+                })
+                .then((events) => {
+                    console.log(events);
+                })
+                .catch((error) => {
+                    console.error('Error fetching events:', error);
+                });
+            })
         const tweetForm = document.getElementById('tweetForm');
         tweetForm.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -77,7 +96,6 @@
                             });
                             tweetElement.appendChild(repliesContainer);
                         }
-        
                         // Create the reply button
                         const replyButton = document.createElement('button');
                         replyButton.textContent = 'Reply';
@@ -92,7 +110,6 @@
                         });
                         // Append the reply button to the tweet element
                         tweetElement.appendChild(replyButton);
-                
                         // Append the tweet element to the tweets container
                         tweetsContainer.appendChild(tweetElement);
                     });
@@ -104,7 +121,6 @@
         }
         function replyToTweet(tweetId, replyContent) {
             const userId = 'your_user_id'; 
-        
             fetch(`/tweets/${tweetId}/reply`, {
                 method: 'POST',
                 headers: {

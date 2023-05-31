@@ -1,13 +1,19 @@
 import { Tweet } from '../models/Tweet';
-import { UserService } from '../services/UserService';
 import { v4 as uuidv4 } from 'uuid';
 
 export class TweetService {
+    private static instance: TweetService;
     private tweets: Tweet[];
     constructor() {
         this.tweets = [];
     }
-    createTweet(content: string, userId: string): Tweet {
+    public static getInstance(): TweetService {
+        if (!TweetService.instance) {
+            TweetService.instance = new TweetService();
+        }
+        return TweetService.instance;
+    }
+    public createTweet(content: string, userId: string): Tweet {
         const tweet: Tweet = {
             id: this.generateId(),
             content: content,
@@ -18,13 +24,13 @@ export class TweetService {
         this.tweets.push(tweet);
         return tweet;
     }
-    getTweetById(id: string): Tweet | undefined {
+    public getTweetById(id: string): Tweet | undefined {
         return this.tweets.find((tweet) => tweet.id === id);
     }
-    getRecentTweets(count: number): Tweet[] {
+    public getRecentTweets(count: number): Tweet[] {
         return this.tweets.slice(-count).reverse();
     }
-    replyToTweet(id: string, content: string, userId: string): Tweet | undefined {
+    public replyToTweet(id: string, content: string, userId: string): Tweet | undefined {
         const tweet = this.getTweetById(id);
         if (tweet) {
         const reply: Tweet = {
@@ -41,5 +47,16 @@ export class TweetService {
     }
     private generateId(): string {
         return uuidv4();
+    }
+    public getTweetWithMostReplies(): Tweet | undefined {
+        let tweetWithMostReplies: Tweet | undefined = undefined;
+        let maxReplyCount = 0;
+        for (const tweet of this.tweets) {
+            if (tweet.replies.length > maxReplyCount) {
+                tweetWithMostReplies = tweet;
+                maxReplyCount = tweet.replies.length;
+            }
+        }
+        return tweetWithMostReplies;
     }
 }
