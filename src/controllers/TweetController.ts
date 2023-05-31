@@ -1,14 +1,21 @@
 import { Request, Response } from 'express';
 import { TweetService } from '../services/TweetService';
+import { UserService } from '../services/UserService';
+import path from 'path'
 
 const tweetService = new TweetService();
+const userService = UserService.getInstance();
 
 export class TweetController {
     createTweet(req: Request, res: Response): void {
         const { content, userId } = req.body;
-        const tweet = tweetService.createTweet(content, userId);
-        res.status(201).json(tweet);
+        const user = userService.getUserById(userId)
+        if(user){
+            const tweet = tweetService.createTweet(content, userId);
+            user.tweets.push(content)
+        }
     }
+
     getTweetById(req: Request, res: Response): void {
         const { id } = req.params;
         const tweet = tweetService.getTweetById(id);

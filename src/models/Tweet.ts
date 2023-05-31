@@ -4,5 +4,4 @@ export interface Tweet {
     userId: string;
     replies: string[];
     timestamp: Date;
-  }
-  
+}

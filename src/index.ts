@@ -9,7 +9,7 @@ dotenv.config();
 const twitterApp = new App();
 
 // Define the port to listen on
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 // Start the server
 twitterApp.getApp().listen(port, () => {

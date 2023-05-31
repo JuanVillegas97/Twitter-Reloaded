@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Dashboard</title>
+</head>
+<body>
+    <h1>Home Dashboard</h1>
+    <h2>Create a Tweet</h2>
+    <form id="tweetForm" action="/tweets" method="POST">
+        <textarea id="tweetInput" name="content" maxlength="300" required></textarea><br><br>
+        <button id="tweetButton" type="submit">Tweet</button>
+        <input type="hidden" id="userIdInput" name="userId" value="<%= userId %>">
+    </form>
+    <button id="updateButton">Update</button>
+    <h2>Tweets and Threads</h2>
+    <div id="tweetsContainer">
+        <!-- Display tweets and threads here -->
+    </div>
+   
+    <script>
+        const tweetForm = document.getElementById('tweetForm');
+        
+        tweetForm.addEventListener('submit', function(event) {
+            // Additional logic to handle the form submission, if needed
+            
+            // Clear the tweet input field
+            const tweetInput = document.getElementById('tweetInput');
+            if (tweetInput) {
+                tweetInput.value = '';
+            }
+        });
+        
+        const updateButton = document.getElementById('updateButton');
+        updateButton.addEventListener('click', function() {
+            fetchTweets();
+        });
+
+        function fetchTweets() {
+            fetch('/tweets', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(tweets => {
+                // Clear the tweets container
+                const tweetsContainer = document.getElementById('tweetsContainer');
+                if (tweetsContainer) {
+                    tweetsContainer.innerHTML = '';
+                }
+
+                // Display the tweets in the tweets container
+                if (tweetsContainer) {
+                    tweets.forEach(tweet => {
+                        console.log(tweet.content + "asukdghashjgbdhjdbvsa")
+                        const tweetElement = document.createElement('div');
+                        tweetElement.textContent = tweet.content;
+                        tweetsContainer.appendChild(tweetElement);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Failed to fetch tweets:', error);
+            });
+        }
+
+        fetchTweets();
+    </script>
+</body>
+</html>

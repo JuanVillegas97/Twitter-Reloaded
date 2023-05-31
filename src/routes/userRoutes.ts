@@ -7,8 +7,16 @@ const router = express.Router();
 const userController = new UserController();
 
 // Define the routes for user-related endpoints
-router.post('/', (req: Request, res: Response) => userController.createUser(req, res));
-router.get('/', (req: Request, res: Response) => userController.getUsers(req, res));
+router.get('/register', (req: Request, res: Response) => userController.getRegisterHTML(req,res));
+router.post('/register', (req: Request, res: Response) => userController.createUser(req, res));
+
+router.get('/login', (req: Request, res: Response) => userController.getLoginHTML(req,res));
+router.post('/login', (req: Request, res: Response) => userController.loginUser(req,res));
+
+
+
+
+router.get('/see', (req: Request, res: Response) => userController.getUsers(req, res));
 router.get('/:id', (req: Request, res: Response) => userController.getUserById(req, res));
 
 export { router as userRoutes };

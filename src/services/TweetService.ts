@@ -1,4 +1,6 @@
 import { Tweet } from '../models/Tweet';
+import { UserService } from '../services/UserService';
+import { v4 as uuidv4 } from 'uuid';
 
 export class TweetService {
     private tweets: Tweet[];
@@ -39,9 +41,6 @@ export class TweetService {
         return undefined;
     }
     private generateId(): string {
-        // Generate a unique ID for the tweet
-        // You can use a library like 'uuid' for generating IDs
-        // Example: return uuid();
-        return ''; // Replace with your implementation
+        return uuidv4();
     }
 }

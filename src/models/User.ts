@@ -1,8 +1,8 @@
-export interface Tweet {
+import {Tweet} from './Tweet';
+
+export interface User {
     id: string;
-    content: string;
-    userId: string;
-    replies: string[];
-    timestamp: Date;
-  }
-  
+    username: string;
+    password: string;
+    tweets : Tweet[]
+}
